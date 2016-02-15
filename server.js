@@ -36,7 +36,7 @@ app.use(bodyParser.json());                                     // parse applica
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
 app.use(methodOverride());
 
-var contracts = ['test', 'token'];
+var contracts = ['token'];
 var contractDesc=[];
 
 fs = require('fs')

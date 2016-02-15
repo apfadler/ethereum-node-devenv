@@ -2,8 +2,7 @@
 
 
 var app = angular.module('app', [
-   'ui.router',
+	'ui.router',,
    'controllers',
-   'jsTree.directive',
-   'ui.ace', 'ui.bootstrap','ng.jsoneditor','schemaForm','ngTablescroll'
+   'ui.bootstrap',
 ]);

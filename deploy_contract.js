@@ -79,7 +79,6 @@ function genClientInfo(contractId, contract, contractAbi) {
 
 }
 
-
 web3.eth.contract(abi).new(100000, {from: coinbase, gas: 1000000, data: bin}, function (err, contract) {
             if(err) {
                 console.error("ERROR " + err);
