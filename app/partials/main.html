@@ -1,0 +1,67 @@
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">Contracts</h1>
+	</div>
+</div>
+
+<div class="row" ng-repeat="contract in contracts">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				Contract "{{contract.name}}"
+			</div>
+			<!-- /.panel-heading -->
+			<div class="panel-body">
+				<div class="list-group">
+				
+					<a href="#" class="list-group-item" ng-repeat="method in contract.abi" ng-if="method.type == 'function'" ng-click="selectMethod(contract, method)">
+						<i class="fa fa-comment fa-fw"></i> Function "{{method.name}}"
+						<span class="pull-right text-muted small">
+						</span>
+					</a>
+					
+				</div>
+				
+				<div class="col-lg-12" ng-show="currentMethod != '' && contract.name == currentContract.name">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							Function "{{currentMethod.name}}"
+						</div>
+						<!-- /.panel-heading -->
+						<div class="panel-body">
+							<div class="form-group" ng-repeat="item in currentMethod.inputs">
+								
+								<label>{{item.name}} ({{item.type}})</label>
+								<input type="text" class="form-control" ng-model="params[item.name]"/>
+								
+							</div>
+							<div class="form-group">
+								<button ng-click="callContract()" class="btn btn-default btn-sm">Call Function</button>
+							</div>
+							
+						</div>
+						<!-- /.panel-body -->
+					</div>
+					
+			
+								
+				 </div>
+				 
+				 <div class="col-lg-12" ng-show="lastResult != '' && contract.name == currentContract.name">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							Result
+						</div>
+						<div class="panel-body">	{{lastResult}} </div>
+					</div>
+				</div>
+				
+				
+			</div>
+			<!-- /.panel-body -->
+		</div>
+					
+	 </div>
+	 
+	 
+</div>
