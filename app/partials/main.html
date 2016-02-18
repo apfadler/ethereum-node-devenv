@@ -29,6 +29,16 @@
 						</div>
 						<!-- /.panel-heading -->
 						<div class="panel-body">
+						
+							<div class="form-group">
+								
+								<label>Caller Account</label>
+								<select ng-model="functionCaller" class="form-control" style="width:40vh">
+									<option ng-repeat="account in accounts" value="{{account.adresss}}">{{account.address}}</option>
+								</select>
+								
+							</div>
+						
 							<div class="form-group" ng-repeat="item in currentMethod.inputs">
 								
 								<label>{{item.name}} ({{item.type}})</label>
@@ -65,3 +75,118 @@
 	 
 	 
 </div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">Account</h1>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				New Wallet
+			</div>
+			<!-- /.panel-heading -->
+			<div class="panel-body">
+				<form>
+					<div class="form-group">	
+						<input type="text" id="userEntropy" placeholder="Type random text to generate entropy" size="80"></input>
+					</div>
+					<div class="form-group">	
+						<button ng-click="newWallet()">Create New Wallet</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				Restore Wallet
+			</div>
+			<!-- /.panel-heading -->
+			<div class="panel-body">	
+				<form>
+					<div class="form-group">	
+						<input type="text" id="seed" value="" size="80"></input>
+					</div>
+					<div class="form-group">					
+						<button ng-click="setSeed()">Restore wallet from Seed</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				Show Addresses
+			</div>
+			<!-- /.panel-heading -->
+			<div class="panel-body">	
+				<form>
+					<div class="form-group">	
+						Show <input type="text" id="numAddr" size="5" value="3"></input> more address(es) <button ng-click="newAddresses('')">Show</button>
+					</div>
+					
+					<div class="form-group" ng-repeat="account in accounts">
+						{{account.address}} - Balance: {{account.balance}}
+					</div>
+					<div class="form-group">		
+						<button onClick='getBalances()'>Refresh</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				Send Ether
+			</div>
+			<!-- /.panel-heading -->
+			<div class="panel-body">
+				<form>
+					
+					<div class="form-group">
+						<label>From:</label> <label>Caller Account</label>
+						<select ng-model="functionCaller" class="form-control" style="width:40vh">
+							<option ng-repeat="account in accounts" value="{{account.adresss}}">{{account.address}}</option>
+						</select>
+					</div>
+					<div class="form-group"><label>To:</label> <input type="text" size="40" ng-model="sendTo"></input></div>
+					<div class="form-group"><label>Ether:</label> <input type="text" ng-model="sendValueAmount"></div>
+					<div class="form-group"><button ng-click="sendEth()">Send Ether</button></div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+	
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				Show Seed
+			</div>
+			<!-- /.panel-heading -->
+			<div class="panel-body">
+				<button ng-click="showSeed()">Show Seed</button>
+			</div>
+		</div>
+	</div>
+</div>			

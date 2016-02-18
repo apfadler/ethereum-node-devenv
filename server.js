@@ -1,21 +1,31 @@
-var args = process.argv.slice(2);
+var http = require('http'),
+    httpProxy = require('http-proxy');
 
-console.log(args);
-var rpcport = args[0];
+//
+// Create a proxy server with custom application logic
+//
+var proxy = httpProxy.createProxyServer({});
 
-var Web3 = require('./node_modules/web3');
+//
+// Create your custom server and just call `proxy.web()` to proxy
+// a web request to the target passed in the options
+// also you can use `proxy.ws()` to proxy a websockets request
+//
+var server = http.createServer(function(req, res) {
+  // You can define here your custom logic to handle the request
+  // and then proxy the request.
+ 
+	console.log(req.url);
+ 
+	if (req.url  == '/ethproxy')
+		proxy.web(req, res, { target: 'http://127.0.0.1:8545' });
+	else
+		proxy.web(req, res, { target: 'http://127.0.0.1:8081' });
+		
+});
 
-var web3 = new Web3();
-
-web3.setProvider(new web3.providers.HttpProvider('http://localhost:'+rpcport));
-
-var coinbase = web3.eth.accounts[args[1]];
-web3.eth.defaultAccount = web3.eth.accounts[args[1]];
-console.log(coinbase);
-console.log(web3.eth.defaultAccount);
-
-var balance = web3.eth.getBalance(coinbase);
-console.log(balance.toString(10));
+console.log("proxy listening on port 8080")
+server.listen(8080);
 
 
 // set up ========================
@@ -29,7 +39,7 @@ var methodOverride = require('method-override'); // simulate DELETE and PUT (exp
 
 
 
-app.use(express.static(__dirname + '/app'));                 // set the static files location /public/img will be /img for users
+app.use(express.static(__dirname + '/app'));                  // set the static files location /public/img will be /img for users
 app.use(morgan('dev'));                                         // log every request to the console
 app.use(bodyParser.urlencoded({'extended':'true'}));            // parse application/x-www-form-urlencoded
 app.use(bodyParser.json());                                     // parse application/json
@@ -42,21 +52,6 @@ var contractDesc=[];
 fs = require('fs')
 
 contracts.forEach(function(item) {
-
-	var _mod = require('./'+item+'/node_module.js');
-	var mod = _mod(web3);
-	
-	mod.methods.forEach(function(method) {
-	
-		console.log("Deploying " + method.path);
-		app.post(method.path, function (req,res) {
-		
-			var contract = mod.contract();
-			res.send(contract[method.name].apply(null, req.body.params));
-		
-		});
-	});
-	
 	contractDesc.push(
 		JSON.parse(fs.readFileSync('./'+item+'/contract.json').toString())
 	);
@@ -67,5 +62,5 @@ app.get("/listContracts", function(req,res) {
 });
 
 // listen (start app with node server.js) ======================================
-app.listen(8080);
-console.log("App listening on port 8080");
+app.listen(8081);
+console.log("App listening on port 8081");
