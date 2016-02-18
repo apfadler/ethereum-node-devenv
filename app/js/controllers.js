@@ -230,16 +230,25 @@ controllers.controller("MainController", ['$scope', '$http', function ($scope, $
     $scope.functionCall = function () {
 	
 		var fromAddr = $scope.functionCaller;//document.getElementById('functionCaller').value
-		var contractAddr = document.getElementById('contractAddr').value
-		var abi = JSON.parse(document.getElementById('contractAbi').value)
-		var contract = $scope.web3.eth.contract(abi).at(contractAddr)
-		var functionName = document.getElementById('functionName').value
-		var args = JSON.parse('[' + document.getElementById('functionArgs').value + ']')
-		var valueEth = document.getElementById('sendValueAmount').value
-		var value = parseFloat(valueEth)*1.0e18
+		var contractAddr = $scope.currentContract.address;
+		var abi = $scope.currentContract.abi;
+		var contract = $scope.web3.eth.contract(abi).at(contractAddr);
+		
+		
+		var functionName = $scope.currentMethod.name;
+		
+		var args = [];
+		for (var key in $scope.params) {
+			args.push($scope.params[key]);
+		}
+		
+		//var valueEth = document.getElementById('sendValueAmount').value
+		//var value = parseFloat(valueEth)*1.0e18
 		var gasPrice = 50000000000
+		
 		var gas = 3141592
-		args.push({from: fromAddr, value: value, gasPrice: gasPrice, gas: gas})
+		args.push({from: $scope.functionCaller, value: 0 , gasPrice: gasPrice, gas: gas})
+		
 		var callback = function(err, txhash) {
 		  console.log('error: ' + err)
 		  console.log('txhash: ' + txhash)
